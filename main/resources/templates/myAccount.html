@@ -1,45 +1,24 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1000/xhtml">
 
-<head th:replace="common/header :: common-header"/>
+<head th:replace="common/frontend-header :: common-frontend-header"/>
 
 <body id="page-top">
 <!--<div class="mfp-container mfp-s-ready mfp-image-holder"><div class="mfp-content"><div class="mfp-figure"><button title="Close (Esc)" type="button" class="mfp-close">×</button><figure><img class="mfp-img" alt="" src="img/portfolio/fullsize/1.jpg" style="max-height: 662px;"/><figcaption><div class="mfp-bottom-bar"><div class="mfp-title"></div><div class="mfp-counter">1 of 6</div></div></figcaption></figure></div></div><div class="mfp-preloader">Loading image #%curr%...</div><button title="Previous (Left arrow key)" type="button" class="mfp-arrow mfp-arrow-left mfp-prevent-close"></button><button title="Next (Right arrow key)" type="button" class="mfp-arrow mfp-arrow-right mfp-prevent-close"></button></div>-->
 <!-- Navigation -->
-<div th:replace="common/header :: navbar" />
-
-<div class="container">
-   <!-- <div class="row" style="margin-bottom:-100px;">
-        <div class="col-xs-8">
-            <h2 class="section-headline"><span>User Account</span></h2>
-        </div>
-        <div class="col-xs-4">
-            <img src="img/portfolio/thumbnails/1.jpg" class="img-responsive"/>
-        </div>
-    </div>-->
-    <section id="contact">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 mx-auto text-center">
-                    <h2 class="section-heading">Let's Get In Touch!</h2>
-                    <hr class="primary"/>
-                    <p>Ready to start your next project with us? That's great! Give us a call or send us an email and we will get back to you as soon as possible!</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-4 ml-auto text-center">
-                    <i class="fa fa-phone fa-3x sr-contact"></i>
-                    <p>123-456-6789</p>
-                </div>
-                <div class="col-lg-4 mr-auto text-center">
-                    <i class="fa fa-envelope-o fa-3x sr-contact"></i>
-                    <p>
-                        <a href="mailto:your-email@your-domain.com">feedback@startbootstrap.com</a>
-                    </p>
+<div th:replace="common/frontend-header :: navbar-frontend" />
+    <!-- Intro Header -->
+    <header class="masthead img-fluid">
+        <div class="intro-body">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 mx-auto">
+                        <h1 class="brand-heading">Bookstore</h1>
+                    </div>
                 </div>
             </div>
         </div>
-    </section>
+    </header>
     <hr/>
     <!--<div class="row">
         <div class="col-xs-9 col-xs-offset-3" id="exTab1">
@@ -131,92 +110,100 @@
     <!--tabs clearfix-->
 
     <!--<div class="container"><h1>Bootstrap  tab panel example (using nav-pills)  </h1></div>-->
-    <div id="exTab1">
-        <ul  class="nav nav-pills">
-            <li  th:classappend="${classActiveNewAccount} ? 'active'">
-                <a  href="#1a" data-toggle="tab">Create new account</a>
-            </li>
-            <li  th:classappend="${classActiveLogin} ? 'active'">
-                <a href="#2a" data-toggle="tab">Login</a>
-            </li>
-            <li th:classappend="${classActiveForgetPassword} ? 'active'">
-                <a href="#3a" data-toggle="tab">Forgot Password</a>
-            </li>
-        </ul>
+    <!-- Account Grid -->
+    <section id="account">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div id="exTab1">
+                        <ul  class="nav nav-pills">
+                            <li  th:classappend="${classActiveNewAccount} ? 'active'">
+                                <a  href="#1a" data-toggle="tab">Create new account</a>
+                            </li>
+                            <li  th:classappend="${classActiveLogin} ? 'active'">
+                                <a href="#2a" data-toggle="tab">Login</a>
+                            </li>
+                            <li th:classappend="${classActiveForgetPassword} ? 'active'">
+                                <a href="#3a" data-toggle="tab">Forgot Password</a>
+                            </li>
+                        </ul>
 
-        <div class="tab-content">
-            <!--Create new account-->
-            <div class="tab-pane active" id="1a" th:classappend="${classActiveNewAccount} ? 'in active'">
-                <div class="alert alert-info" th:if="${emailSent}">
-                    An email has been sent to the email address you just registered. Please validate your email address and update your password information.
-                </div>
-                <form th:action="@{/newUser}" method="post">
-                    <div class="form-group">
-                        <label for="newUsername">* Username: </label>
-                        <span th:if="${usernameExists}">Username already exists. Choose a different one.</span>
-                        <input required="required" type="text" class="form-control" id="newUsername" name="username"/>
-                        <p>Enter your username here.</p>
-                    </div>
+                        <div class="tab-content">
+                            <!--Create new account-->
+                            <div class="tab-pane" id="1a" th:classappend="${classActiveNewAccount} ? 'in active'">
+                                <div class="alert alert-info" th:if="${emailSent}">
+                                    An email has been sent to the email address you just registered. Please validate your email address and update your password information.
+                                </div>
+                                <form th:action="@{/newUser}" method="post">
+                                    <div class="form-group">
+                                        <label for="newUsername">* Username: </label>&nbsp;
+                                        <span th:if="${usernameExists}">Username already exists. Choose a different one.</span>
+                                        <input required="required" type="text" class="form-control" id="newUsername" name="username"/>
+                                        <p>Enter your username here.</p>
+                                    </div>
 
-                    <div class="form-group">
-                        <label for="email">* Email Address: </label>
-                        <span th:if="${emailExists}">Email already exists. Choose a different one.</span>
-                        <input required="required" type="text" class="form-control" id="email" name="email"/>
-                        <p>A valid email address.</p>
-                    </div>
-                    <button type="submit" class="btn btn-default">Create new account</button>
-                </form>
-            </div>
-            <!--Login-->
-            <div class="tab-pane" id="2a" th:classappend="${classActiveLogin} ? 'in active'">
-                <div th:if="${param.error != null}">Incorrect username or password.</div>
-                <form th:action="@{/login}" method="post">
-                    <div class="form-group">
-                        <label for="newUsername">* Username: </label>
-                        <input required="required" type="text" class="form-control" id="username" name="username"/>
-                        <p>Enter your username here.</p>
-                    </div>
+                                    <div class="form-group">
+                                        <label for="email">* Email Address: </label>
+                                        <span th:if="${emailExists}">Email already exists. Choose a different one.</span>
+                                        <input required="required" type="text" class="form-control" id="email" name="email"/>
+                                        <p>A valid email address.</p>
+                                    </div>
+                                    <button type="submit" class="btn btn-default">Create new account</button>
+                                </form>
+                            </div>
+                            <!--Login-->
+                            <div class="tab-pane" id="2a" th:classappend="${classActiveLogin} ? 'in active'">
+                                <div th:if="${param.error != null}">Incorrect username or password.</div>
+                                <form th:action="@{/login}" method="post">
+                                    <div class="form-group">
+                                        <label for="newUsername">* Username: </label>
+                                        <input required="required" type="text" class="form-control" id="username" name="username"/>
+                                        <p>Enter your username here.</p>
+                                    </div>
 
-                    <div class="form-group">
-                        <label for="email">* Password: </label>
-                        <input required="required" type="password" class="form-control" id="password" name="password"/>
-                        <p>Enter the password that accompanies your username.</p>
-                    </div>
+                                    <div class="form-group">
+                                        <label for="email">* Password: </label>
+                                        <input required="required" type="password" class="form-control" id="password" name="password"/>
+                                        <p>Enter the password that accompanies your username.</p>
+                                    </div>
 
-                    <div class="form-group">
-                        <div class="form-check">
-                            <label class="form-check-label">
-                                <input class="form-check-input" type="checkbox"/> Remember Password</label>
+                                    <div class="form-group">
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" type="checkbox"/> Remember Password</label>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-default">Login</button>
+                                </form>
+                                <div class="text-center">
+                                    <a class="d-block small mt-3" href="#1a">Register an Account</a>
+                                    <a class="d-block small" href="#3a">Forgot Password?</a>
+                                </div>
+                            </div>
+                            <!--Forget Password-->
+                            <div class="tab-pane" id="3a" th:classappend="${classActiveForgetPassword} ? 'in active'">
+                                <div class="text-center mt-4 mb-5">
+                                    <h4>Forgot your password?</h4>
+                                    <p>Enter your email address and we will send you instructions on how to reset your password.</p>
+                                </div>
+                                <div th:if="${emailNotExist}" class="alert alert-danger">Email doesn't exist.</div>
+                                <div th:if="${forgetPasswordEmailSent}" class="alert alert-success">Email sent.</div>
+                                <form th:action="@{/forgetPassword}" method="post">
+                                    <div class="form-group">
+                                        <label for="recoverEmail">* Your Email: </label>
+                                        <input required="required" type="text" class="form-control" id="recoverEmail" name="email"/>
+                                        <p>Enter your registered email address here.</p>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-default">Submit</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-default">Login</button>
-                </form>
-                <div class="text-center">
-                    <a class="d-block small mt-3" href="#1a">Register an Account</a>
-                    <a class="d-block small" href="#3a">Forgot Password?</a>
                 </div>
-            </div>
-            <!--Forget Password-->
-            <div class="tab-pane" id="3a" th:classappend="${classActiveForgetPassword} ? 'in active'">
-                <div class="text-center mt-4 mb-5">
-                    <h4>Forgot your password?</h4>
-                    <p>Enter your email address and we will send you instructions on how to reset your password.</p>
-                </div>
-                <div th:if="${emailNotExist}" class="alert alert-danger">Email doesn't exist.</div>
-                <div th:if="${forgetPasswordEmailSent}" class="alert alert-success">Email sent.</div>
-                <form th:action="@{/forgetPassword}" method="post">
-                    <div class="form-group">
-                        <label for="recoverEmail">* Your Email: </label>
-                        <input required="required" type="text" class="form-control" id="recoverEmail" name="email"/>
-                        <p>Enter your registered email address here.</p>
-                    </div>
-
-                    <button type="submit" class="btn btn-default">Login</button>
-                </form>
             </div>
         </div>
-    </div>
-</div>
+    </section>
 
 <!--<section class="p-0" id="portfolio">
     <div class="container-fluid">
@@ -315,38 +302,13 @@
     </div>
 </section>-->
 
-
-
 <!-- Footer -->
 <footer>
     <div class="container text-center">
         <p>Copyright &copy; JP University 2017</p>
     </div>
 </footer>
-<!-- Scroll to Top Button-->
-<div class="col-lg-8 mx-auto">
-    <a class="scroll-to-top rounded btn btn-circle js-scroll-trigger" href="#page-top">
-        <i class="fa fa-angle-up"></i>
-    </a>
-</div>
-<!-- Logout Modal-->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                <a class="btn btn-primary" href="login.html">Logout</a>
-            </div>
-        </div>
-    </div>
-</div>
+
 
 <!-- Portfolio Modals -->
 
@@ -554,7 +516,7 @@
     </div>
 </div>
 <!-- Bootstrap core JavaScript -->
-<div th:replace="common/header :: body-bottom-scripts" />
+<div th:replace="common/frontend-header  :: body-bottom-scripts-frontend" />
 
 </body>
 
