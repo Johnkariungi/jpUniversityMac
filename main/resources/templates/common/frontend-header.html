@@ -104,24 +104,19 @@
                             </div>
                         </form>
                     </li>
-                    <li class="nav-item nav-item dropdown">
+                    <!--<li class="nav-item nav-item dropdown">
                         <a sec:authorize="isAnonymous()" class="nav-link dropdown-toggle mr-lg-2" th:href="@{/register}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My Account</a>
 
-                        <div class="dropdown-menu" aria-labelledby="alertsDropdown">
-                            <a class="dropdown-item" sec:authorize="isAnonymous()" th:href="@{/myProfile}">
-                              <span class="text-success">
-                                <strong><i class="fa fa-long-arrow-up fa-fw"></i>My Account</strong>
-                              </span>
-                            </a>
-                            <a class="dropdown-item" th:href="@{/register}">
-                              <span class="text-success">
-                                <strong><i class="fa fa-long-arrow-up fa-fw"></i>Login</strong>
-                              </span>
-                            </a>
-                            <!--<a class="dropdown-item" sec:authorize="isAuthenticated()" class="nav-link" data-toggle="modal" data-target="#exampleModal">
-                              <span class="text-success"><strong><i class="fa fa-fw fa-sign-out"></i>Logout</strong>
-                              </span>
-                            </a>-->
+                        <div class="dropdown-menu" aria-labelledby="alertsDropdown">-->
+                    <li class="nav-item">
+                        <a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/login}">My Account</a>
+                        <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/myProfile}">My Account</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/register}">Login</a>
+                        <a class="nav-link" sec:authorize="isAuthenticated()" data-toggle="modal" data-target="#exampleModal">
+                          <i class="fa fa-fw fa-sign-out"></i>Logout</a>
+                    </li>
 
                             <!--<div class="dropdown-divider"></div>
                             <a class="dropdown-item" sec:authorize="isAuthenticated()" th:href="@{/myProfile}">
@@ -136,8 +131,8 @@
                                 <a sec:authorize="isAuthenticated()" class="nav-link" data-toggle="modal" data-target="#exampleModal">
                                     <i class="fa fa-fw fa-sign-out"></i>Logout</a>
                             </span>-->
-                        </div>
-                    </li>
+                       <!-- </div>
+                    </li>-->
 
                 </ul>
             </div>

@@ -169,7 +169,8 @@
             </div>
             <!--Login-->
             <div class="tab-pane" id="2a" th:classappend="${classActiveLogin} ? 'in active'">
-                <form>
+                <div th:if="${param.error != null}">Incorrect username or password.</div>
+                <form th:action="@{/login}" method="post">
                     <div class="form-group">
                         <label for="newUsername">* Username: </label>
                         <input required="required" type="text" class="form-control" id="username" name="username"/>
@@ -201,7 +202,9 @@
                     <h4>Forgot your password?</h4>
                     <p>Enter your email address and we will send you instructions on how to reset your password.</p>
                 </div>
-                <form>
+                <div th:if="${emailNotExist}" class="alert alert-danger">Email doesn't exist.</div>
+                <div th:if="${forgetPasswordEmailSent}" class="alert alert-success">Email sent.</div>
+                <form th:action="@{/forgetPassword}" method="post">
                     <div class="form-group">
                         <label for="recoverEmail">* Your Email: </label>
                         <input required="required" type="text" class="form-control" id="recoverEmail" name="email"/>

@@ -50,14 +50,13 @@ public class HomeController {
     @RequestMapping("/login")
     private String login(Model model) {
         model.addAttribute("classActiveLogin", true);
-        return "register";
+        return "myAccount";
     }
 
-    @RequestMapping("/forgetPassword")
-    public String forgetPassword(Model model) {
-        model.addAttribute("classActiveForgetPassword", true);
+    /*@RequestMapping("/forgetPassword")
+    public String forgetPassword() {
         return "forgot-password";
-    }
+    }*/
 
     @RequestMapping(value = "/newUser", method = RequestMethod.POST)
     public String newUserPost(
@@ -109,7 +108,7 @@ public class HomeController {
         mailSender.send(email);
         model.addAttribute("emailSent" , true);
 
-        return "login";
+        return "myAccount";
     }
 
     @RequestMapping("/newUser")
@@ -134,11 +133,13 @@ public class HomeController {
         /*retrieve current security context from the current and set authentication to the current user*/
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
+
+        model.addAttribute("user", user);
         model.addAttribute("classActiveEdit", true);
         return "myProfile";
     }
 
-    @RequestMapping("/blank")
+    /*@RequestMapping("/blank")
     private String blank() {
         return "blank";
     }
@@ -164,11 +165,14 @@ public class HomeController {
     }
 
     @RequestMapping("/forgot-password")
-    public String forgotPassword(Model model) {
-        model.addAttribute("classActiveForgetPassword", true);
+    public String forgotPassword() {
         return "forgot-password";
     }
 
+    @RequestMapping("/register")
+    public String register() {
+        return "register";
+    }
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public String register(
         HttpServletRequest request,
@@ -180,7 +184,7 @@ public class HomeController {
             model.addAttribute("email", userEmail);
             model.addAttribute("username", username);
 
-            /*check if there no duplicates*/
+            *//*check if there no duplicates*//*
             if (userService.findByUsername(username) != null) {
                 model.addAttribute("usernameExists", true);
 
@@ -225,5 +229,5 @@ public class HomeController {
     @RequestMapping("/about")
     public String about() {
         return "about";
-    }
+    }*/
 }

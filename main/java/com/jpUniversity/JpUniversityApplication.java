@@ -26,6 +26,8 @@ public class JpUniversityApplication implements CommandLineRunner {
 	/*add new user every time the application runs*/
 	@Override
 	public void run(String... strings) throws Exception {
+
+		/*add default user when program first runs*/
 		User user1 = new User();
 		user1.setFirstName("John");
 		user1.setLastName("Adams");
