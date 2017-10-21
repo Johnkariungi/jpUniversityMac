@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 
 <head th:fragment="common-frontend-header">
 
@@ -50,7 +50,7 @@
                     <li class="nav-item">
                         <a class="nav-link js-scroll-trigger" href="#contact">Contact</a>
                     </li>
-                    <li class="nav-item dropdown">
+                    <!--<li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle mr-lg-2" id="alertsDropdown" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-fw fa-bell"></i>
                             <span class="d-lg-none">Alerts
@@ -62,19 +62,13 @@
                         </a>
                         <div class="dropdown-menu" aria-labelledby="alertsDropdown">
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" th:href="@{/login}">
+                            <a class="dropdown-item" sec:authorize="isAnonymous()" th:href="@{/login}">
                       <span class="text-success">
                         <strong>
                           <i class="fa fa-long-arrow-up fa-fw"></i>My Account</strong>
                       </span>
                             </a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">
-                      <span class="text-success">
-                        <strong>
-                          <i class="fa fa-long-arrow-up fa-fw"></i>Shopping Cart</strong>
-                      </span>
-                            </a>
+
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="#">
                       <span class="text-success">
@@ -83,14 +77,21 @@
                       </span>
                             </a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" th:href="@{/login}">
+                            <a class="dropdown-item" sec:authorize="isAuthenticated()" th:href="@{/myProfile}">
                       <span class="text-success">
                         <strong>
                           <i class="fa fa-long-arrow-up fa-fw"></i>My Account</strong>
                       </span>
                             </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" sec:authorize="isAuthenticated()" href="@{/logout}">
+                      <span class="text-success">
+                        <strong>
+                          <i class="fa fa-long-arrow-up fa-fw"></i>Logout</strong>
+                      </span>
+                            </a>
                         </div>
-                    </li>
+                    </li>-->
                     <li class="nav-item">
                         <form class="form-inline my-2 my-lg-0 mr-lg-2">
                             <div class="input-group">
@@ -103,10 +104,41 @@
                             </div>
                         </form>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="modal" data-target="#exampleModal">
-                            <i class="fa fa-fw fa-sign-out"></i>Logout</a>
+                    <li class="nav-item nav-item dropdown">
+                        <a sec:authorize="isAnonymous()" class="nav-link dropdown-toggle mr-lg-2" th:href="@{/register}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My Account</a>
+
+                        <div class="dropdown-menu" aria-labelledby="alertsDropdown">
+                            <a class="dropdown-item" sec:authorize="isAnonymous()" th:href="@{/myProfile}">
+                              <span class="text-success">
+                                <strong><i class="fa fa-long-arrow-up fa-fw"></i>My Account</strong>
+                              </span>
+                            </a>
+                            <a class="dropdown-item" th:href="@{/register}">
+                              <span class="text-success">
+                                <strong><i class="fa fa-long-arrow-up fa-fw"></i>Login</strong>
+                              </span>
+                            </a>
+                            <!--<a class="dropdown-item" sec:authorize="isAuthenticated()" class="nav-link" data-toggle="modal" data-target="#exampleModal">
+                              <span class="text-success"><strong><i class="fa fa-fw fa-sign-out"></i>Logout</strong>
+                              </span>
+                            </a>-->
+
+                            <!--<div class="dropdown-divider"></div>
+                            <a class="dropdown-item" sec:authorize="isAuthenticated()" th:href="@{/myProfile}">
+                              <span class="text-success">
+                                <strong><i class="fa fa-long-arrow-up fa-fw"></i>My Account</strong>
+                              </span>
+                            </a>
+                            <span class="text-success">
+                                <div class="dropdown-divider"></div>
+                            </span>-->
+                            <!--<span class="text-success">
+                                <a sec:authorize="isAuthenticated()" class="nav-link" data-toggle="modal" data-target="#exampleModal">
+                                    <i class="fa fa-fw fa-sign-out"></i>Logout</a>
+                            </span>-->
+                        </div>
                     </li>
+
                 </ul>
             </div>
         </div>

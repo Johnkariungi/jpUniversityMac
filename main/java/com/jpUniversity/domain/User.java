@@ -1,27 +1,63 @@
 package com.jpUniversity.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.jpUniversity.domain.security.Authority;
+import com.jpUniversity.domain.security.UserRole;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class User implements UserDetails {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="id", nullable = false, updatable = false)
+    @Column(name = "id", nullable = false, updatable = false)
     private Long id;
     private String username;
     private String password;
     private String firstName;
     private String lastName;
 
-    @Column(name="email", nullable = false, updatable = false)
+    @Column(name = "email", nullable = false, updatable = false)
     private String email;
     private String phone;
     private boolean enabled = true;
 
+    /*using rest services*/
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonIgnore /*when trying to convert objects into serialized json objects to avoid generating an infinite loop*/
+    private Set<UserRole> userRoles = new HashSet<>();
+
+    /*use spring security to add different rows and add implement methods to user*/
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        Set<GrantedAuthority> authorities = new HashSet<>();
+        userRoles.forEach(ur -> authorities.add(new Authority(ur.getRole().getName())));
+        /*foreach of the user roles we can add authority - string in java 8*/
+        return authorities;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    /*generate getters and setters*/
     public Long getId() {
         return id;
     }
@@ -30,7 +66,6 @@ public class User implements UserDetails {
         this.id = id;
     }
 
-    @Override
     public String getUsername() {
         return username;
     }
@@ -39,7 +74,6 @@ public class User implements UserDetails {
         this.username = username;
     }
 
-    @Override
     public String getPassword() {
         return password;
     }
@@ -80,7 +114,6 @@ public class User implements UserDetails {
         this.phone = phone;
     }
 
-    @Override
     public boolean isEnabled() {
         return enabled;
     }
@@ -89,23 +122,11 @@ public class User implements UserDetails {
         this.enabled = enabled;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+    public Set<UserRole> getUserRoles() {
+        return userRoles;
     }
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return false;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return false;
+    public void setUserRoles(Set<UserRole> userRoles) {
+        this.userRoles = userRoles;
     }
 }

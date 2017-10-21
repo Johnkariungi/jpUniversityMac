@@ -2,22 +2,39 @@ package com.jpUniversity.controller;
 
 import com.jpUniversity.domain.User;
 import com.jpUniversity.domain.security.PasswordResetToken;
+import com.jpUniversity.domain.security.Role;
+import com.jpUniversity.domain.security.UserRole;
 import com.jpUniversity.service.UserService;
 import com.jpUniversity.service.impl.UserSecurityService;
+import com.jpUniversity.utility.MailConstructor;
+import com.jpUniversity.utility.SecurityUtility;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-
+import javax.servlet.http.HttpServletRequest;
+import java.util.HashSet;
 import java.util.Locale;
+import java.util.Set;
+import java.util.UUID;
 
 @Controller
 public class HomeController {
+
+    @Autowired
+    private JavaMailSender mailSender;
+
+    @Autowired
+    private MailConstructor mailConstructor;
 
     @Autowired /*auto wire user service for token*/
     private UserService userService;
@@ -33,15 +50,70 @@ public class HomeController {
     @RequestMapping("/login")
     private String login(Model model) {
         model.addAttribute("classActiveLogin", true);
-        return "myAccount";
+        return "register";
     }
 
-    @RequestMapping("/register")
-    private String register(
-            Locale locale,
-            @RequestParam("token") String token,
-            Model model) {
+    @RequestMapping("/forgetPassword")
+    public String forgetPassword(Model model) {
+        model.addAttribute("classActiveForgetPassword", true);
+        return "forgot-password";
+    }
 
+    @RequestMapping(value = "/newUser", method = RequestMethod.POST)
+    public String newUserPost(
+            HttpServletRequest request,
+            @ModelAttribute("email") String userEmail,
+            @ModelAttribute("username") String username,
+            Model model
+        ) throws Exception {
+            model.addAttribute("classActiveNewAccount", true);
+            model.addAttribute("email", userEmail);
+            model.addAttribute("username", username);
+
+            /*check if there no duplicates*/
+        if (userService.findByUsername(username) != null) {
+            model.addAttribute("usernameExists", true);
+
+            return "myAccount";
+        }
+
+        if (userService.findByEmail(userEmail) != null) {
+            model.addAttribute("emailExists", true);
+
+            return "myAccount";
+        }
+
+        User user = new User();
+        user.setUsername(username);
+        user.setEmail(userEmail);
+
+        String password = SecurityUtility.randomPassword();
+
+        String encryptedPassword = SecurityUtility.passwordEncoder().encode(password);
+        user.setPassword(encryptedPassword);
+
+        Role role = new Role();
+        role.setRoleId(1);
+        role.setName("ROLE_USER");
+
+        Set<UserRole> userRoles = new HashSet<>();
+        userRoles.add(new UserRole(user, role));
+        userService.createUser(user, userRoles);
+
+        String token = UUID.randomUUID().toString();
+        userService.createPasswordResetTokenForUser(user, token);
+
+        String appUrl = "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+        SimpleMailMessage email = mailConstructor.constructResetTokenEmail(appUrl, request.getLocale(), token, user, password);
+
+        mailSender.send(email);
+        model.addAttribute("emailSent" , true);
+
+        return "login";
+    }
+
+    @RequestMapping("/newUser")
+    private String newUser(Locale locale, @RequestParam("token") String token, Model model) {
         PasswordResetToken passToken = userService.getPasswordResetToken(token);
 
         if(passToken == null) {
@@ -49,9 +121,8 @@ public class HomeController {
             model.addAttribute("message", message);
             return "redirect:/badRequest"; /*error page for those trying to hijack the page*/
         }
-        /*code block below is to set the current session to that user*/
-
-        /*otherwise get user from the token in the database*/
+        /*code block below is to set the current session to that user
+        otherwise get user from the token in the database*/
         User user = passToken.getUser();
         /*assign username*/
         String username = user.getUsername();
@@ -96,6 +167,59 @@ public class HomeController {
     public String forgotPassword(Model model) {
         model.addAttribute("classActiveForgetPassword", true);
         return "forgot-password";
+    }
+
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public String register(
+        HttpServletRequest request,
+        @ModelAttribute("email") String userEmail,
+        @ModelAttribute("username") String username,
+        Model model
+        ) throws Exception {
+            model.addAttribute("classActiveNewAccount", true);
+            model.addAttribute("email", userEmail);
+            model.addAttribute("username", username);
+
+            /*check if there no duplicates*/
+            if (userService.findByUsername(username) != null) {
+                model.addAttribute("usernameExists", true);
+
+                return "myAccount";
+            }
+
+            if (userService.findByEmail(userEmail) != null) {
+                model.addAttribute("emailExists", true);
+
+                return "myAccount";
+            }
+
+            User user = new User();
+            user.setUsername(username);
+            user.setEmail(userEmail);
+
+            String password = SecurityUtility.randomPassword();
+
+            String encryptedPassword = SecurityUtility.passwordEncoder().encode(password);
+            user.setPassword(encryptedPassword);
+
+            Role role = new Role();
+            role.setRoleId(1);
+            role.setName("ROLE_USER");
+
+            Set<UserRole> userRoles = new HashSet<>();
+            userRoles.add(new UserRole(user, role));
+            userService.createUser(user, userRoles);
+
+            String token = UUID.randomUUID().toString();
+            userService.createPasswordResetTokenForUser(user, token);
+
+            String appUrl = "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+            SimpleMailMessage email = mailConstructor.constructResetTokenEmail(appUrl, request.getLocale(), token, user, password);
+
+            mailSender.send(email);
+            model.addAttribute("emailSent" , true);
+
+            return "myAccount";
     }
 
     @RequestMapping("/about")

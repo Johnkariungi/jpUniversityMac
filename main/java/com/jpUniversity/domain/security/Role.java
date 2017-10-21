@@ -1,7 +1,8 @@
 package com.jpUniversity.domain.security;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Role {
@@ -10,6 +11,11 @@ public class Role {
     private int roleId;
     private String name;
 
+    /*java collections and set cannot have duplicate values with no order as opposed to a list that has order*/
+    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, fetch = FetchType.LAZY) /*1 role to many users*/
+    private Set<UserRole> userRoles = new HashSet<>(); /*map to a set of user roles*/
+
+    /*generate getters and setters*/
     public int getRoleId() {
         return roleId;
     }
@@ -24,5 +30,13 @@ public class Role {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Set<UserRole> getUserRoles() {
+        return userRoles;
+    }
+
+    public void setUserRoles(Set<UserRole> userRoles) {
+        this.userRoles = userRoles;
     }
 }

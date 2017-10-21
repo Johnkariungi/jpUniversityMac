@@ -6,7 +6,9 @@ import javax.persistence.*;
 import java.util.Calendar;
 import java.util.Date;
 
+@Entity
 public class PasswordResetToken {
+
     private static final int EXPIRATION = 60 * 24;
 
     @Id
