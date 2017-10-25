@@ -1,9 +1,11 @@
 package com.jpUniversity.controller;
 
+import com.jpUniversity.domain.Book;
 import com.jpUniversity.domain.User;
 import com.jpUniversity.domain.security.PasswordResetToken;
 import com.jpUniversity.domain.security.Role;
 import com.jpUniversity.domain.security.UserRole;
+import com.jpUniversity.service.BookService;
 import com.jpUniversity.service.UserService;
 import com.jpUniversity.service.impl.UserSecurityService;
 import com.jpUniversity.utility.MailConstructor;
@@ -22,10 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Controller
 public class HomeController {
@@ -42,6 +41,9 @@ public class HomeController {
     @Autowired
     private UserSecurityService userSecurityService;
 
+    @Autowired
+    private BookService bookService;
+
     @RequestMapping("/")
     private String index() {
         return "index";
@@ -51,6 +53,14 @@ public class HomeController {
     private String login(Model model) {
         model.addAttribute("classActiveLogin", true);
         return "myAccount";
+    }
+
+    @RequestMapping("/bookshelf")
+    public String bookShelf(Model  model) {
+        List<Book> bookList = bookService.findAll();
+        model.addAttribute("bookList", bookList);
+        return "bookshelf";
+
     }
 
     @RequestMapping("/forgetPassword")

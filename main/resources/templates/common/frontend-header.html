@@ -50,6 +50,24 @@
                     <li class="nav-item">
                         <a class="nav-link js-scroll-trigger" href="#contact">Contact</a>
                     </li>
+
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle mr-lg-2" id="messagesDropdown" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="messagesDropdown">
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" th:href="@{/bookshelf}">
+                                    <strong>Books</strong>
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" th:href="@{/bookshelf}">
+                                    <strong>Browse Bookshelf</strong>
+                                </a>
+                                <div class="dropdown-divider"></div>
+                            </div>
+                        </li>
+                    </ul>
                     <!--<li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle mr-lg-2" id="alertsDropdown" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-fw fa-bell"></i>
@@ -165,7 +183,7 @@
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" sec:authorize="isAuthenticated()" th:href="@{logout}">Logout</a>
+                    <a class="btn btn-primary" sec:authorize="isAuthenticated()" th:href="@{/logout}">Logout</a>
                 </div>
             </div>
         </div>

@@ -43,7 +43,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "forgot-password",
             "/register",
             "/vendor/**",
-            "/fonts/**"
+            "/fonts/**",
+            "/bookshelf"
     };
 
     @Override

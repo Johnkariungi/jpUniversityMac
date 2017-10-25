@@ -15,9 +15,9 @@
             <div class="row">
                 <div class="col-lg-8 mx-auto">
                     <h2 class="brand-heading section-headline">
-                        <span th:text="${#strings.toUpperCase(user.username)}"></span>
+                        <span th:text="${user} ? ${#strings.toUpperCase(user.username)} : 'All Books'"></span>
                     </h2>
-                    <a href="#account" class="btn btn-circle js-scroll-trigger">
+                    <a href="#bookList" class="btn btn-circle js-scroll-trigger">
                         <i class="fa fa-angle-double-down animated"></i>
                     </a>
                 </div>
@@ -26,180 +26,40 @@
     </div>
 </header>
 
-<!--Nav tabs-->
-<!-- Account Grid -->
-<section id="account">
+<div class="container-fluid">
     <div class="row">
-        <div class="col-lg-12 text-center">
-            <div id="exTab1">
-                <ul  class="nav nav-pills">
-                    <li  th:classappend="${classActiveEdit} ? 'active'">
-                        <a  href="#1a" data-toggle="tab">Edit</a>
-                    </li>
-                    <li  th:classappend="${classActiveOrders} ? 'active'">
-                        <a href="#2a" data-toggle="tab">Orders</a>
-                    </li>
-                    <li th:classappend="${classActiveBilling} ? 'active'">
-                        <a href="#3a" data-toggle="tab">Billing</a>
-                    </li>
-                    <li th:classappend="${classActiveShipping} ? 'active'">
-                        <a href="#4a" data-toggle="tab">Shipping</a>
-                    </li>
-                </ul>
-
-                <div class="tab-content">
-                    <!--Edit user information-->
-                    <div class="tab-pane active" id="1a" th:classappend="${classActiveEdit} ? 'in active'">
-                        <form th:action="@{/updateUserInfo}" method="post">
-                            <input type="hidden" name="id" th:value="${user.id}"/>
-                            <div class="bg-info" th:if="${updateUserInfo}">User info updated.</div>
-                            <div class="row">
-                                <div class="form-group col-xs-6">
-                                    <label for="firstName">* First Name: </label>
-                                    <input required="required" type="text" class="form-control" id="firstName"
-                                           name="firstName" th:value="${user.firstName}"/>
-                                </div>
-                                <div class="form-group col-xs-6">
-                                    <label for="lastName">* Last Name: </label>
-                                    <input required="required" type="text" class="form-control" id="lastName"
-                                           name="lastName" th:value="${user.lastName}"/>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="userName">* Username: </label>
-                                <input required="required" type="text" class="form-control" id="userName"
-                                       name="username" th:value="${user.username}"/>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="currentPassword">* Current Password: </label>
-                                <input required="required" type="password" class="form-control" id="currentPassword"
-                                       name="currentPassword" th:value="${currentPassword}"/>
-                            </div>
-                            <p>Enter your current password to change the email address or password.</p>
-
-                            <div class="form-group">
-                                <label for="email">* Email Address: </label>
-                                <input required="required" type="email" class="form-control" id="email"
-                                       name="email" th:value="${user.email}"/>
-                            </div>
-                            <p>A valid email address. All emails from this system will be sent to this
-                                address. The email address will not be made public and will only be used if
-                                you wish to receive a new password or email notifications.</p>
-
-                            <div class="form-group">
-                                <label for="txtNewPassword">* Password: </label>
-                                <input required="required" type="password" class="form-control" id="txtNewPassword"
-                                       name="newPassword"/>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="txtConfirmPassword">* Confirm Password: </label>
-                                <input required="required" type="password" class="form-control" id="txtConfirmPassword"/>
-                            </div>
-                            <p>To change the current user password, enter the new password in both fields.</p>
-
-                            <button type="submit" class="btn btn-default">Create new account</button>
-                        </form>
+        <form th:action="@{/shoppingCart/addItem}" method="post">
+            <input hidden="hidden" th:field="*{book.id}" />
+            <div class="row">
+                <div class="col-xs-3">
+                    <a th:href="@{/bookshelf}">Back to book list</a><br />
+                    <img class="img-responsive shelf-book" th:src="#{adminPath} + @{/image/book/} + ${book.id} + '.png'" />
+                </div>
+                <div class="col-xs-9">
+                    <h3 th:text="${book.title}">Book Title</h3>
+                    <div class="row">
+                        <div class="col-xs-5">
+                            <h5><strong>Author: </strong><span th:text="${book.author}"></span></h5>
+                            <p><strong>Publisher: </strong><span th:text="${book.publisher}"></span></p>
+                            <p><strong>Publication Date: </strong><span th:text="${book.publicationDate}"></span></p>
+                            <p><strong>Language: </strong><span th:text="${book.language}"></span></p>
+                            <p><strong>Category: </strong><span th:text="${book.category}"></span></p>
+                            <p><strong><span th:text="${book.format}"></span>: </strong><span th:text="${book.numberOfPages}"></span> pages.</p>
+                            <p><strong>ISBN: </strong><span th:text="${book.isbn}"></span></p>
+                            <p><strong>Shipping Weight: </strong><span th:text="${book.shippingWeight}"></span> ounces.</p>
+                        </div>
+                        <div class="col-xs-7">
+                            <div class="panel panel-default"></div>
+                        </div>
                     </div>
+                </div>
+            </div>
 
-                </div>
-            </div>
-        </div>
+        </form>
     </div>
-</section>
+</div>
 
-<!-- Team -->
-<section class="bg-light" id="team">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12 text-center">
-                <h2 class="section-heading">Our Amazing Team</h2>
-                <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-4">
-                <div class="team-member">
-                    <img class="mx-auto rounded-circle" src="img/team/1.jpg" alt=""/>
-                    <h4>Kay Garland</h4>
-                    <p class="text-muted">Lead Designer</p>
-                    <ul class="list-inline social-buttons">
-                        <li class="list-inline-item">
-                            <a href="#">
-                                <i class="fa fa-twitter"></i>
-                            </a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a href="#">
-                                <i class="fa fa-facebook"></i>
-                            </a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a href="#">
-                                <i class="fa fa-linkedin"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="team-member">
-                    <img class="mx-auto rounded-circle" src="img/team/2.jpg" alt=""/>
-                    <h4>Larry Parker</h4>
-                    <p class="text-muted">Lead Marketer</p>
-                    <ul class="list-inline social-buttons">
-                        <li class="list-inline-item">
-                            <a href="#">
-                                <i class="fa fa-twitter"></i>
-                            </a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a href="#">
-                                <i class="fa fa-facebook"></i>
-                            </a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a href="#">
-                                <i class="fa fa-linkedin"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="team-member">
-                    <img class="mx-auto rounded-circle" src="img/team/3.jpg" alt=""/>
-                    <h4>Diana Pertersen</h4>
-                    <p class="text-muted">Lead Developer</p>
-                    <ul class="list-inline social-buttons">
-                        <li class="list-inline-item">
-                            <a href="#">
-                                <i class="fa fa-twitter"></i>
-                            </a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a href="#">
-                                <i class="fa fa-facebook"></i>
-                            </a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a href="#">
-                                <i class="fa fa-linkedin"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-8 mx-auto text-center">
-                <p class="large text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut eaque, laboriosam veritatis, quos non quis ad perspiciatis, totam corporis ea, alias ut unde.</p>
-            </div>
-        </div>
-    </div>
-</section>
+
 
 <!-- Footer -->
 <footer>
