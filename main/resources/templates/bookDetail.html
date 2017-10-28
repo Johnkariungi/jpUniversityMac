@@ -27,36 +27,63 @@
 </header>
 
 <div class="container-fluid">
-    <div class="row">
-        <form th:action="@{/shoppingCart/addItem}" method="post">
-            <input hidden="hidden" th:field="*{book.id}" />
+    <!-- About Section -->
+    <section id="about" class="content-section text-center">
+        <div class="container">
             <div class="row">
-                <div class="col-xs-3">
-                    <a th:href="@{/bookshelf}">Back to book list</a><br />
-                    <img class="img-responsive shelf-book" th:src="#{adminPath} + @{/image/book/} + ${book.id} + '.png'" />
-                </div>
-                <div class="col-xs-9">
-                    <h3 th:text="${book.title}">Book Title</h3>
-                    <div class="row">
-                        <div class="col-xs-5">
-                            <h5><strong>Author: </strong><span th:text="${book.author}"></span></h5>
-                            <p><strong>Publisher: </strong><span th:text="${book.publisher}"></span></p>
-                            <p><strong>Publication Date: </strong><span th:text="${book.publicationDate}"></span></p>
-                            <p><strong>Language: </strong><span th:text="${book.language}"></span></p>
-                            <p><strong>Category: </strong><span th:text="${book.category}"></span></p>
-                            <p><strong><span th:text="${book.format}"></span>: </strong><span th:text="${book.numberOfPages}"></span> pages.</p>
-                            <p><strong>ISBN: </strong><span th:text="${book.isbn}"></span></p>
-                            <p><strong>Shipping Weight: </strong><span th:text="${book.shippingWeight}"></span> ounces.</p>
+                <div class="col-lg-8 mx-auto">
+                    <form th:action="@{/shoppingCart/addItem}" method="post">
+                        <input hidden="hidden" th:field="*{book.id}" />
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <a th:href="@{/bookshelf}">Back to book list</a><br />
+                                <img class="img-responsive shelf-book" th:src="#{adminPath}+@{/image/book/}+${book.id}+'.png'" />
+                            </div>
+                            <div class="col-xs-9">
+                                <h3 th:text="${book.title}">Book Title</h3>
+                                <div class="row">
+                                    <div class="col-xs-5">
+                                        <h5><strong>Author: </strong><span th:text="${book.author}"></span></h5>
+                                        <p><strong>Publisher: </strong><span th:text="${book.publisher}"></span></p>
+                                        <p><strong>Publication Date: </strong><span th:text="${book.publicationDate}"></span></p>
+                                        <p><strong>Language: </strong><span th:text="${book.language}"></span></p>
+                                        <p><strong>Category: </strong><span th:text="${book.category}"></span></p>
+                                        <p><strong><span th:text="${book.format}"></span>: </strong><span th:text="${book.numberOfPages}"></span> pages.</p>
+                                        <p><strong>ISBN: </strong><span th:text="${book.isbn}"></span></p>
+                                        <p><strong>Shipping Weight: </strong><span th:text="${book.shippingWeight}"></span> ounces.</p>
+                                    </div>
+                                    <div class="col-xs-7">
+                                        <div class="panel panel-default" style="border-width: 5px;">
+                                            <div class="panel-body">
+                                                <div class="row">
+                                                    <h4>Our Price: <span style="color: #db3208">$<span th:text="${book.ourPrice}"></span></span></h4>
+                                                    <p>List Price: <span style="text-decoration: line-through">$<span th:text="${book.listPrice}"></span></span> </p>
+                                                    <p>You Save: $<span th:text="${#numbers.formatDecimal((book.listPrice - book.ourPrice), 0, 'COMMA', 2, 'POINT')}"></span></p>
+                                                    <span>Qty: </span>
+                                                    <select name="qty">
+                                                        <option th:each="qty : ${qtyList}" th:value="${qty}" th:text="${qty}"></option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <h4 th:if="*{book.inStockNumber&gt;10}" style="color:green;">In Stock</h4>
+                                                    <h4 th:if="*{book.inStockNumber&lt;10 and book.inStockNumber&gt;0}" style="color:green;">Only <span th:text="${book.inStockNumber}"> in stock.</span></h4>
+                                                    <h4 th:if="*{book.inStockNumber==0}" style="color:darkred;">Unavailable</h4>
+                                                    <button type="submit" class="btn btn-warning" style="color:black; borer: 1px solid black; padding 10px 40px 10px 40px;">Add to Cart</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr />
+                            <p th:utext="${book.description}"></p>
                         </div>
-                        <div class="col-xs-7">
-                            <div class="panel panel-default"></div>
-                        </div>
-                    </div>
+
+                    </form>
                 </div>
             </div>
-
-        </form>
-    </div>
+        </div>
+    </section>
 </div>
 
 

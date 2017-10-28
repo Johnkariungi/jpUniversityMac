@@ -1,6 +1,9 @@
 package com.jpUniversity.service;
 
 import com.jpUniversity.domain.User;
+import com.jpUniversity.domain.UserBilling;
+import com.jpUniversity.domain.UserPayment;
+import com.jpUniversity.domain.UserShipping;
 import com.jpUniversity.domain.security.PasswordResetToken;
 import com.jpUniversity.domain.security.UserRole;
 
@@ -19,4 +22,12 @@ public interface UserService {
     User createUser(User user, Set<UserRole> userRoles) throws Exception;
 
     User save(User user);
+
+    void updateUserBilling(UserBilling userBilling, UserPayment userPayment, User user);/*update billing from user service*/
+
+    void updateUserShipping(UserShipping userShipping, User user);
+
+    void setUserDefaultShipping(Long userShippingId, User user);
+
+    void setUserDefaultPayment(Long userPaymentId, User user);
 }

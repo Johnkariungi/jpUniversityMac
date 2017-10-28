@@ -30,7 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return SecurityUtility.passwordEncoder();
     }
 
-    /*things available files without public security validation*/
+    /*things available files without public security validation (don't have to login for access)*/
     private static final String[] PUBLIC_MATCHERS = {
             "/css/**",
             "/js/**",
@@ -44,7 +44,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/register",
             "/vendor/**",
             "/fonts/**",
-            "/bookshelf"
+            "/bookshelf",
+            "/bookDetail/**"
     };
 
     @Override
