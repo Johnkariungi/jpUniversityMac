@@ -43,16 +43,16 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="#portfolio">Sale</a>
+                        <a class="nav-link js-scroll-trigger" href="#portfolio"><i class="fa fa-tags" aria-hidden="true"></i></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="#about">Browse</a>
+                        <a class="nav-link js-scroll-trigger" href="#about"><i class="fa fa-folder-open" aria-hidden="true"></i></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="#download">Download</a>
+                        <a class="nav-link js-scroll-trigger" href="#download"><i class="fa fa-download" aria-hidden="true"></i></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="#contact">Contact</a>
+                        <a class="nav-link js-scroll-trigger" href="#contact"><i class="fa fa-address-book" aria-hidden="true"></i></a>
                     </li>
 
                     <ul class="navbar-nav ml-auto">
@@ -131,14 +131,14 @@
 
                         <div class="dropdown-menu" aria-labelledby="alertsDropdown">-->
 
-                    <!--<li class="nav-item">
-                        <a class="nav-link" href="#">Shopping Cart</a>
-                    </li>-->
                     <li class="nav-item">
-                        <a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/login}">My Account</a>
+                        <a class="nav-link" th:href="@{/shoppingCart/cart}"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/myProfile}">My Account</a>
+                        <a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/login}"><i class="fa fa-sign-in" aria-hidden="true"></i></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/myProfile}"><i class="fa fa-user" aria-hidden="true"></i></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" data-toggle="modal" data-target="#exampleModal">
@@ -207,6 +207,7 @@
 
     <!-- Custom scripts for this template -->
     <script th:src="@{./js/grayscale.min.js}"></script>
+    <script th:src="@{js/scripts.js}"></script>
 
     <!-- data table -->
     <!--<script th:src="@{/js/jquery.dataTables.min.js}"></script>

@@ -1,9 +1,6 @@
 package com.jpUniversity.service.impl;
 
-import com.jpUniversity.domain.User;
-import com.jpUniversity.domain.UserBilling;
-import com.jpUniversity.domain.UserPayment;
-import com.jpUniversity.domain.UserShipping;
+import com.jpUniversity.domain.*;
 import com.jpUniversity.domain.security.PasswordResetToken;
 import com.jpUniversity.domain.security.UserRole;
 import com.jpUniversity.repository.*;
@@ -12,7 +9,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -58,6 +57,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional/*shopping cart -- binding*/
     public User createUser(User user, Set<UserRole> userRoles) throws Exception {
         User localUser = userRepository.findByUsername(user.getUsername());
         if (localUser != null) {
@@ -68,6 +68,16 @@ public class UserServiceImpl implements UserService {
             }
 
             user.getUserRoles().addAll(userRoles);
+
+            /*when we create a user we bind him to a shopping cart -- binding*/
+            ShoppingCart shoppingCart = new ShoppingCart();
+            shoppingCart.setUser(user);
+            user.setShoppingCart(shoppingCart); /*mutual binding*/
+
+            user.setUserShippingList(new ArrayList<UserShipping>());
+            user.setUserPaymentList(new ArrayList<UserPayment>());
+            /*end binding*/
+
 
             localUser = userRepository.save(user);
         }
